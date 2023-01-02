@@ -4,13 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
-    @vite("ressources/js/app.js")
+    <title>Mediatheque</title>
+
+    @vite('resources/js/welcome.tsx')
 
 </head>
 
 <body>
-    <h1>Lewe MAIG</h1>
+    <input id="authenticated" type="hidden" value="{{ auth()->check() }}">
+
+    
+    <div class="root">
+
+    </div>
 </body>
 
 </html>
