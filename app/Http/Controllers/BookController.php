@@ -12,19 +12,27 @@ class BookController extends Controller
 {
     public function __construct()
     {
-        $this->middleware("auth")->except("index");
-    }
-    public function index(Request $request)
-    {
-        $search = $request->search;
-        if ($search == "") {
-            $books = Book::all();
-            return response()->json($books);
-        }
-        $books = Book::where("title", "LIKE", "%{$search}%")->orWhere("id", "=", $search)->get()->toArray();
-        return response()->json($books);
+        $this->middleware("auth")->except(["api", "index", "show"]);
     }
 
+    /**
+     * Display a listing of the resource with a view.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $books = Book::all();
+        return view("books.index", [
+            "books" => $books
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $authors = Author::all();
@@ -33,12 +41,15 @@ class BookController extends Controller
         ]);
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-
         DB::beginTransaction();
-
         try {
             $author = Author::where("name", "=", $request->author)->first();
             if ($author == null) {
@@ -52,7 +63,7 @@ class BookController extends Controller
                     "duration" => $request->duration
                 ]);
             }
-            Book::create([
+            $book = Book::create([
                 "title" => $request->title,
                 "address" => $request->address,
                 "category" => $request->category,
@@ -65,38 +76,50 @@ class BookController extends Controller
                 "microfilm_id" => $request->has("duration") ? $microfilm->id : null,
             ]);
             DB::commit();
-            return redirect("welcome");
+            return view("books.edit", $book);
         } catch (\Exception $e) {
             DB::rollback();
         }
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
     public function show(Book $book)
     {
-        // dd($book);
-        $authors = Author::all();
         return view("books.show", [
             "book" => $book,
-            "authors" => $authors
-
         ]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
     public function edit(Book $book)
     {
         $authors = Author::all();
         return view("books.edit", [
             "book" => $book,
             "authors" => $authors
-
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Book $book)
     {
-
         DB::beginTransaction();
-
         try {
             $author = Author::where("name", "=", $request->author)->first();
             if ($author == null) {
@@ -105,11 +128,7 @@ class BookController extends Controller
                 ]);
             }
             $microfilm = $book->microfilm;
-
-
-
             if ($request->has("duration")) {
-
                 if ($microfilm == null) {
                     $microfilm = Microfilm::create([
                         "duration" => $request->duration
@@ -131,9 +150,26 @@ class BookController extends Controller
                 "microfilm_id" => $request->has("duration") ? $microfilm->id : null,
             ]);
             DB::commit();
-            return redirect("/");
+            return view("books.edit", $book);
         } catch (\Exception $e) {
             DB::rollback();
         }
+    }
+
+    /**
+     * Display a listing resource in json.
+     *
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function api(Request $request)
+    {
+        $search = $request->search;
+        if ($search == "") {
+            $books = Book::all();
+            return response()->json($books);
+        }
+        $books = Book::where("title", "LIKE", "%{$search}%")->orWhere("id", "=", $search)->get()->toArray();
+        return response()->json($books);
     }
 }

@@ -1,9 +1,9 @@
-import { createEffect, createResource, For, mapArray, Show } from "solid-js";
+import { createEffect, createResource, For, Show } from "solid-js";
 import { generateArray } from "../libs";
 import { Grid } from "./grid";
 
 const fetcher = (search: string) =>
-    fetch(`/books?search=${search}`).then((res) => res.json());
+    fetch(`/api/books?search=${search}`).then((res) => res.json());
 
 type BookProps = Props & { withMicrofilm: () => boolean };
 

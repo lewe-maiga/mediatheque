@@ -5,6 +5,7 @@ use App\Http\Controllers\CDController;
 use App\Http\Controllers\MicrofilmController;
 use App\Http\Controllers\NewsPaperController;
 use App\Http\Controllers\ProfileController;
+use App\Models\NewsPaper;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,22 +23,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// //read
-// Route::get("books", [BookController::class, "index"]);
-// Route::get("books/{book}", [BookController::class, "show"])->name("book.edit")->whereNumber("id");
-// //form
-// Route::get("books/create", [BookController::class, "form"])->name("book.form");
-// //create
-// Route::post("books", [BookController::class, "store"])->name("book.store");
-// //update
-// Route::put("books/{id}", [BookController::class, "cre"])->name("book.update")->whereNumber("id");
+//CRUD Operations
+//Books
+Route::resource("books", BookController::class)->except([
+    "destroy",
+]);
 
-Route::resource("books", BookController::class);
+//CDs
+Route::resource("cds", CDController::class)->except([
+    "destroy",
+]);
 
+//Newspapers
+Route::resource("newspapers", NewsPaperController::class)->except([
+    "destroy",
+]);
 
-Route::get("microfilms", [MicrofilmController::class, "index"]);
-Route::get("newspapers", [NewsPaperController::class, "index"]);
-Route::get("cds", [CDController::class, "index"]);
+Route::get("/api/books", [BookController::class, "api"]);
+Route::get("/api/newspapers", [NewsPaperController::class, "api"]);
+Route::get("/api/cds", [CDController::class, "api"]);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

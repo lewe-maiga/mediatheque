@@ -6,7 +6,7 @@ type NewsPaperProps = Props & { withMicrofilm: () => boolean };
 
 export const NewsPapers: Component<NewsPaperProps> = (props) => {
     const fetcher = (url: string) =>
-        fetch(`/newspapers?search=${url}`).then((res) => res.json());
+        fetch(`/api/newspapers?search=${url}`).then((res) => res.json());
     const [data] = createResource<NewsPaper[], string>(props.text, fetcher);
     return (
         <>

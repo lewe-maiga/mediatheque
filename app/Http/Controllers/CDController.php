@@ -7,14 +7,79 @@ use Illuminate\Http\Request;
 
 class CDController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $search = $request->search;
-        if ($search == "") {
-            $cds = CD::all();
-            return response()->json($cds);
-        }
-        $cds = CD::where("title", "LIKE", "%{$search}%")->orWhere("id", "=", $search)->get()->toArray();
-        return response()->json($cds);
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\CD  $cD
+     * @return \Illuminate\Http\Response
+     */
+    public function show(CD $cD)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\CD  $cD
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(CD $cD)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\CD  $cD
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, CD $cD)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\CD  $cD
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(CD $cD)
+    {
+        //
     }
 }
