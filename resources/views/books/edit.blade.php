@@ -8,8 +8,7 @@
     @vite('resources/js/books/create.tsx')
 </head>
 <body class="p-8 h-screen relative">
-    {{-- {{dd($book)}} --}}
-    <form autocomplete="off" class="flex flex-col w-full absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 p-8 sm:max-w-[600px] gap-6 border rounded" action="{{route("book.update", $book->id)}}" method="POST">
+    <form autocomplete="off" class="flex flex-col w-full absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 p-8 sm:max-w-[600px] gap-6 border rounded" action="{{route("books.update", $book->id)}}" method="POST">
             <legend class="border-b pb-4 mb-4 text-green-800 font-semibold text-xl border-green-800">Modifier un livre</legend>
             @csrf
             @method("PUT")

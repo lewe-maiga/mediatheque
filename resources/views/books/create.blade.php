@@ -9,7 +9,7 @@
 </head>
 <body class="p-8 h-screen relative">
 
-    <form autocomplete="off" class="flex flex-col w-full absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 p-8 sm:max-w-[600px] gap-6 border rounded" action="{{route("book.store")}}" method="POST">
+    <form autocomplete="off" class="flex flex-col w-full absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 p-8 sm:max-w-[600px] gap-6 border rounded" action="{{route("books.store")}}" method="POST">
             <legend class="border-b pb-4 mb-4 text-green-800 font-semibold text-xl border-green-800">Enregistrer un nouveau livre</legend>
             @csrf
             <div class="flex flex-col sm:flex-row w-full gap-4">

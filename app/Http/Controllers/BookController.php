@@ -71,20 +71,30 @@ class BookController extends Controller
         }
     }
 
-    // public function edit(Book $book)
-    // {
-    //     dd($book);
-    //     $authors = Author::all();
-    //     return view("books.book", [
+    public function show(Book $book)
+    {
+        // dd($book);
+        $authors = Author::all();
+        return view("books.show", [
+            "book" => $book,
+            "authors" => $authors
 
-    //         "authors" => $authors
-    //     ]);
-    // }
+        ]);
+    }
+
+    public function edit(Book $book)
+    {
+        $authors = Author::all();
+        return view("books.edit", [
+            "book" => $book,
+            "authors" => $authors
+
+        ]);
+    }
 
     public function update(Request $request, Book $book)
     {
 
-        dd($request->post());
         DB::beginTransaction();
 
         try {
@@ -94,13 +104,21 @@ class BookController extends Controller
                     "name" => $request->author,
                 ]);
             }
-            $microfilm = null;
+            $microfilm = $book->microfilm;
+
+
+
             if ($request->has("duration")) {
-                $microfilm = Microfilm::create([
-                    "duration" => $request->duration
-                ]);
+
+                if ($microfilm == null) {
+                    $microfilm = Microfilm::create([
+                        "duration" => $request->duration
+                    ]);
+                } else {
+                    $microfilm->update(["duration" => $request->duration]);
+                }
             }
-            Book::create([
+            $book->update([
                 "title" => $request->title,
                 "address" => $request->address,
                 "category" => $request->category,
@@ -113,19 +131,9 @@ class BookController extends Controller
                 "microfilm_id" => $request->has("duration") ? $microfilm->id : null,
             ]);
             DB::commit();
-            return redirect("welcome");
+            return redirect("/");
         } catch (\Exception $e) {
             DB::rollback();
         }
-    }
-
-    public function show(Book $book)
-    {
-        $authors = Author::all();
-        return view("books.edit", [
-            "book" => $book,
-            "authors" => $authors
-
-        ]);
     }
 }

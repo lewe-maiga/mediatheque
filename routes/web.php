@@ -22,15 +22,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//read
-Route::get("books", [BookController::class, "index"]);
-Route::get("books/{book}", [BookController::class, "show"])->name("book.show")->whereNumber("id");
-//form
-Route::get("books/create", [BookController::class, "form"])->name("book.form");
-//create
-Route::post("books", [BookController::class, "create"])->name("book.store");
-//update
-Route::put("books/{id}", [BookController::class, "cre"])->name("book.update")->whereNumber("id");
+// //read
+// Route::get("books", [BookController::class, "index"]);
+// Route::get("books/{book}", [BookController::class, "show"])->name("book.edit")->whereNumber("id");
+// //form
+// Route::get("books/create", [BookController::class, "form"])->name("book.form");
+// //create
+// Route::post("books", [BookController::class, "store"])->name("book.store");
+// //update
+// Route::put("books/{id}", [BookController::class, "cre"])->name("book.update")->whereNumber("id");
+
+Route::resource("books", BookController::class);
 
 
 Route::get("microfilms", [MicrofilmController::class, "index"]);
